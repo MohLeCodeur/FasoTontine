@@ -9,6 +9,6 @@ namespace FasoTontine.Models
         public virtual User? Utilisateur { get; set; }
         public string Message { get; set; } = string.Empty;
         public DateTime DateCreation { get; set; } = DateTime.Now;
-        public bool EstLu { get; set; } = false;
+        public bool EstLu { get; set; }
     }
 }

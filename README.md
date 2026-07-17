@@ -33,16 +33,7 @@
 4. **Accéder à l'application** :
    Une fois l'application démarrée, ouvrez votre navigateur et accédez à l'adresse locale indiquée dans votre console (généralement [http://localhost:5299](http://localhost:5299)).
 
----
 
-## 🛠️ État actuel et architecture
-
-L'application est configurée comme un **gabarit de développement (template)** :
-- **Design & UI intacts** : Le design CSS personnalisé, l'intégration Bootstrap et les vues Razor (`.cshtml`) sont entièrement fonctionnels et affichent des pages d'accueil, de tontines, de formulaires de paiement et d'authentification.
-- **Logique épurée (Stubs)** : La logique métier et l'accès aux données ont été nettoyés et marqués par des commentaires `// TODO: ...`. Les contrôleurs renvoient pour le moment des ensembles de données vides et effectuent des redirections pour permettre de naviguer sur l'application de façon fluide.
-- **Prêt pour base de données** : Les classes de modèles (comme `User`, `Tontine`, `Cotisation`) sont prêtes à être utilisées pour générer vos migrations Entity Framework Core ou être connectées à votre API.
-
----
 
 ## 📂 Structure principale du projet
 
