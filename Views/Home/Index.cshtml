@@ -1,0 +1,186 @@
+@{
+    ViewData["Title"] = "Tableau de Bord";
+    Layout = "_Layout";
+    var participations = ViewBag.MyParticipations as List<FasoTontine.Models.MembreTontine>;
+    var notifications = ViewBag.Notifications as List<FasoTontine.Models.Notification>;
+}
+
+<div class="container">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8">
+            <h1 class="fw-bold text-dark">Tableau de Bord</h1>
+            <p class="text-muted mb-0">Bienvenue sur FasoTontine, <strong>@User.Identity?.Name</strong>. Suivez vos épargnes collectives en temps réel.</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <a asp-controller="Tontine" asp-action="Create" class="btn btn-premium">
+                <i class="bi bi-plus-lg me-2"></i>Nouvelle Tontine
+            </a>
+        </div>
+    </div>
+
+    <!-- STATS CARDS -->
+    <div class="row g-4 mb-5">
+        <div class="col-6 col-lg-3">
+            <div class="card-premium h-100 p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-wrapper bg-success-subtle text-success p-3 rounded-4">
+                        <i class="bi bi-piggy-bank fs-4"></i>
+                    </div>
+                    <div>
+                        <span class="text-muted small d-block">Total Épargné</span>
+                        <h3 class="fw-bold mb-0 text-dark">@ViewBag.TotalSaved.ToString("N0") <span class="fs-6 fw-normal">FCFA</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+            <div class="card-premium h-100 p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-wrapper bg-primary-subtle text-primary p-3 rounded-4">
+                        <i class="bi bi-people fs-4"></i>
+                    </div>
+                    <div>
+                        <span class="text-muted small d-block">Mes Tontines</span>
+                        <h3 class="fw-bold mb-0 text-dark">@participations?.Count</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+            <div class="card-premium h-100 p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-wrapper bg-warning-subtle text-warning p-3 rounded-4">
+                        <i class="bi bi-clock-history fs-4"></i>
+                    </div>
+                    <div>
+                        <span class="text-muted small d-block">À Payer (Ce Tour)</span>
+                        <h3 class="fw-bold mb-0 text-dark">@ViewBag.NextPaymentsCount</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+            <div class="card-premium h-100 p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-wrapper bg-danger-subtle text-danger p-3 rounded-4">
+                        <i class="bi bi-check2-square fs-4"></i>
+                    </div>
+                    <div>
+                        <span class="text-muted small d-block">Validations en Attente</span>
+                        <h3 class="fw-bold mb-0 text-dark">@ViewBag.PendingValidationsCount</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- MY TONTINES LIST -->
+        <div class="col-lg-8">
+            <div class="card-premium p-4 h-100">
+                <h4 class="fw-bold text-dark mb-4 d-flex align-items-center gap-2">
+                    <i class="bi bi-wallet2 text-primary"></i> Mes Tontines Actives
+                </h4>
+
+                @if (participations == null || !participations.Any())
+                {
+                    <div class="text-center py-5">
+                        <i class="bi bi-journal-x fs-1 text-muted"></i>
+                        <p class="text-muted mt-3">Vous ne participez à aucune tontine pour le moment.</p>
+                        <a asp-controller="Tontine" asp-action="Index" class="btn btn-secondary-premium mt-2">Découvrir les tontines</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Fréquence</th>
+                                    <th>Cotisation</th>
+                                    <th>Mon Ordre</th>
+                                    <th>Statut</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var part in participations)
+                                {
+                                    <tr>
+                                        <td>
+                                            <span class="fw-bold text-dark">@part.Tontine?.Nom</span>
+                                        </td>
+                                        <td>@part.Tontine?.Frequence</td>
+                                        <td>
+                                            <span class="fw-semibold text-secondary">@part.Tontine?.MontantPart.ToString("N0") FCFA</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border font-monospace">Tour #@part.OrdreTirage</span>
+                                        </td>
+                                        <td>
+                                            @if (part.Tontine?.Statut == "EnAttente")
+                                            {
+                                                <span class="badge badge-premium badge-pending">En recrutement</span>
+                                            }
+                                            else if (part.Tontine?.Statut == "Active")
+                                            {
+                                                <span class="badge badge-premium badge-active">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-premium badge-terminated">Terminée</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Tontine" asp-action="Details" asp-route-id="@part.TontineId" class="btn btn-sm btn-secondary-premium py-1.5 px-3">
+                                                Gérer
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- RECENT NOTIFICATIONS -->
+        <div class="col-lg-4">
+            <div class="card-premium p-4 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+                        <i class="bi bi-bell text-primary"></i> Alertes & Suivi
+                    </h4>
+                    <a asp-action="Notifications" class="text-primary text-decoration-none small fw-semibold">Tout voir</a>
+                </div>
+
+                @if (notifications == null || !notifications.Any())
+                {
+                    <div class="text-center py-5">
+                        <i class="bi bi-bell-slash text-muted fs-2"></i>
+                        <p class="text-muted small mt-2">Aucune notification récente.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex flex-column gap-3">
+                        @foreach (var notif in notifications)
+                        {
+                            <div class="p-3 rounded-4 border @(notif.EstLu ? "bg-light" : "bg-primary-subtle bg-opacity-25 border-primary")">
+                                <p class="mb-1 small text-dark">@notif.Message</p>
+                                <span class="text-muted font-monospace" style="font-size: 0.75rem;">
+                                    <i class="bi bi-clock me-1"></i>@notif.DateCreation.ToString("dd/MM/yyyy HH:mm")
+                                </span>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

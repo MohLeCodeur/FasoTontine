@@ -1,0 +1,58 @@
+@model FasoTontine.Models.Cotisation
+@{
+    ViewData["Title"] = "Déclarer une Cotisation";
+    Layout = "_Layout";
+}
+
+<div class="container max-width-md" style="max-width: 600px;">
+    <div class="card-premium p-4 p-md-5">
+        <div class="mb-4 text-center">
+            <i class="bi bi-phone-vibrate text-primary fs-1"></i>
+            <h2 class="fw-bold mt-2 text-dark">Déclarer un Paiement</h2>
+            <p class="text-muted">Tontine : <strong class="text-dark">@ViewBag.TontineNom</strong> (Tour #@Model.NumeroTour)</p>
+        </div>
+
+        <div class="alert alert-warning border-0 rounded-4 mb-4 small">
+            <h6 class="fw-bold"><i class="bi bi-info-circle-fill me-1"></i> Instructions pour le transfert</h6>
+            <ol class="mb-0 ps-3">
+                <li>Effectuez le transfert de <strong>@Model.MontantPaye.ToString("N0") FCFA</strong> sur le compte Orange Money ou Moov Money de l'administrateur du groupe.</li>
+                <li>Copiez l'<strong>ID / Référence de transaction</strong> reçu par SMS.</li>
+                <li>Saisissez-le ci-dessous avec le mode utilisé pour soumettre votre preuve de paiement.</li>
+            </ol>
+        </div>
+
+        <form asp-action="Declarer" method="post">
+            <input type="hidden" asp-for="TontineId" />
+            <input type="hidden" asp-for="CotiseurId" />
+            <input type="hidden" asp-for="NumeroTour" />
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Montant requis</label>
+                <div class="input-group">
+                    <input asp-for="MontantPaye" type="number" class="form-control form-control-premium bg-light" readonly />
+                    <span class="input-group-text bg-light text-dark">FCFA</span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="MethodePaiement" class="form-label fw-semibold">Mode de transfert</label>
+                <select asp-for="MethodePaiement" class="form-select form-control-premium">
+                    <option value="Orange Money">Orange Money</option>
+                    <option value="Moov Money">Moov Money (Moov Cash)</option>
+                    <option value="Espèces">Espèces (Remise en main propre)</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="TransactionReference" class="form-label fw-semibold">ID / Référence de la transaction</label>
+                <input asp-for="TransactionReference" class="form-control form-control-premium" placeholder="Ex: PP260716.1741.A00123" required />
+                <span class="form-text text-muted">Cette référence permettra à l'administrateur de valider le reçu.</span>
+            </div>
+
+            <div class="d-flex gap-3">
+                <a asp-controller="Tontine" asp-action="Details" asp-route-id="@Model.TontineId" class="btn btn-secondary-premium flex-grow-1 text-center py-2.5">Retour</a>
+                <button type="submit" class="btn btn-premium flex-grow-1 py-2.5">Soumettre la déclaration</button>
+            </div>
+        </form>
+    </div>
+</div>

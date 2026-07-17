@@ -1,0 +1,91 @@
+@model IEnumerable<FasoTontine.Models.Tontine>
+@{
+    ViewData["Title"] = "Nos Tontines";
+    Layout = "_Layout";
+    int currentUserId = ViewBag.CurrentUserId;
+}
+
+<div class="container">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8">
+            <h1 class="fw-bold text-dark">Nos Tontines</h1>
+            <p class="text-muted mb-0">Découvrez et rejoignez des tontines actives ou en cours de recrutement.</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <a asp-action="Create" class="btn btn-premium">
+                <i class="bi bi-plus-lg me-2"></i>Créer une Tontine
+            </a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="card-premium p-5 text-center">
+            <i class="bi bi-wallet2 text-muted fs-1"></i>
+            <h3 class="fw-semibold text-dark mt-3">Aucune tontine disponible</h3>
+            <p class="text-muted">Soyez le premier à créer une tontine pour votre groupe !</p>
+            <a asp-action="Create" class="btn btn-premium mt-2">Créer une tontine</a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var tontine in Model)
+            {
+                var isMember = tontine.Membres.Any(m => m.UtilisateurId == currentUserId);
+                
+                <div class="col-md-4">
+                    <div class="card-premium h-100 d-flex flex-column">
+                        <div class="p-4 flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <span class="badge badge-premium @(tontine.Statut == "Active" ? "badge-active" : tontine.Statut == "EnAttente" ? "badge-pending" : "badge-terminated")">
+                                    @(tontine.Statut == "Active" ? "Active" : tontine.Statut == "EnAttente" ? "Recrutement" : "Terminée")
+                                </span>
+                                <span class="text-muted small">@tontine.Frequence</span>
+                            </div>
+
+                            <h4 class="fw-bold text-dark mb-2">@tontine.Nom</h4>
+                            <p class="text-muted small text-truncate-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 40px;">
+                                @tontine.Description
+                            </p>
+
+                            <hr class="my-3 text-muted opacity-25">
+
+                            <div class="row g-2 mb-3 text-center">
+                                <div class="col-6 border-end">
+                                    <span class="text-muted small d-block">Montant part</span>
+                                    <span class="fw-bold text-secondary">@tontine.MontantPart.ToString("N0") FCFA</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-muted small d-block">Membres</span>
+                                    <span class="fw-bold text-dark">@tontine.Membres.Count</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-light border-top d-flex gap-2">
+                            <a asp-action="Details" asp-route-id="@tontine.Id" class="btn btn-secondary-premium flex-grow-1 py-2">
+                                <i class="bi bi-eye me-1"></i>Détails
+                            </a>
+                            
+                            @if (tontine.Statut == "EnAttente" && !isMember)
+                            {
+                                <form asp-action="Join" asp-route-id="@tontine.Id" method="post" class="flex-grow-1">
+                                    <button type="submit" class="btn btn-premium w-100 py-2">
+                                        <i class="bi bi-person-plus me-1"></i>Rejoindre
+                                    </button>
+                                </form>
+                            }
+                            else if (isMember)
+                            {
+                                <button class="btn btn-outline-success flex-grow-1 py-2 border-0" disabled>
+                                    <i class="bi bi-check-circle-fill me-1"></i>Inscrit
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

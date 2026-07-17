@@ -1,0 +1,63 @@
+@model FasoTontine.Models.User
+@{
+    ViewData["Title"] = "Inscription";
+    Layout = "_Layout";
+}
+
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-6">
+        <div class="card-premium p-4 p-md-5">
+            <div class="text-center mb-4">
+                <i class="bi bi-person-plus text-primary fs-1"></i>
+                <h2 class="fw-bold mt-2 text-dark">Inscription</h2>
+                <p class="text-muted">Rejoignez FasoTontine et commencez à épargner</p>
+            </div>
+
+            <form asp-action="Register" method="post">
+                <div class="asp-validation-summary-errors text-danger small mb-3" asp-validation-summary="All"></div>
+
+                <div class="mb-3">
+                    <label asp-for="NomComplet" class="form-label fw-semibold">Nom Complet</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+                        <input asp-for="NomComplet" class="form-control form-control-premium border-start-0" placeholder="Ex: Adama Diarra" required />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Telephone" class="form-label fw-semibold">Numéro de Téléphone (Orange / Moov)</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-telephone text-muted"></i></span>
+                        <input asp-for="Telephone" class="form-control form-control-premium border-start-0" placeholder="Ex: 76123456" required />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label fw-semibold">Adresse Email (Optionnelle)</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                        <input asp-for="Email" class="form-control form-control-premium border-start-0" placeholder="Ex: adama@gmail.com" />
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-semibold">Mot de passe</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                        <input type="password" name="password" class="form-control form-control-premium border-start-0" placeholder="••••••••" required />
+                    </div>
+                    <span class="form-text text-muted">Au moins 4 caractères.</span>
+                </div>
+
+                <button type="submit" class="btn btn-premium w-100 py-2.5 mb-3">
+                    <i class="bi bi-check-circle me-2"></i>Créer mon compte
+                </button>
+
+                <div class="text-center">
+                    <span class="text-muted">Déjà inscrit ? </span>
+                    <a asp-action="Login" class="text-primary fw-semibold text-decoration-none">Se connecter</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

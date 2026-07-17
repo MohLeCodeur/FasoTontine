@@ -1,0 +1,39 @@
+@model IEnumerable<FasoTontine.Models.Notification>
+@{
+    ViewData["Title"] = "Mes Notifications";
+    Layout = "_Layout";
+}
+
+<div class="container max-width-md" style="max-width: 800px;">
+    <div class="card-premium p-4 p-md-5">
+        <h2 class="fw-bold text-dark mb-4 d-flex align-items-center gap-3">
+            <i class="bi bi-bell-fill text-primary"></i> Notifications
+        </h2>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5">
+                <i class="bi bi-bell-slash fs-1 text-muted"></i>
+                <p class="text-muted mt-3">Vous n'avez pas de notifications pour le moment.</p>
+                <a asp-action="Index" class="btn btn-premium mt-2">Retour au tableau de bord</a>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex flex-column gap-3">
+                @foreach (var notif in Model)
+                {
+                    <div class="p-4 rounded-4 border bg-white d-flex align-items-start gap-3 shadow-sm">
+                        <div class="bg-primary-subtle text-primary p-2.5 rounded-3">
+                            <i class="bi bi-info-circle-fill fs-5"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="mb-1 text-dark">@notif.Message</p>
+                            <small class="text-muted font-monospace"><i class="bi bi-clock me-1"></i>@notif.DateCreation.ToString("dd/MM/yyyy HH:mm")</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

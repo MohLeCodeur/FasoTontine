@@ -1,0 +1,61 @@
+@model FasoTontine.Models.Tontine
+@{
+    ViewData["Title"] = "Créer une Tontine";
+    Layout = "_Layout";
+}
+
+<div class="container max-width-md" style="max-width: 700px;">
+    <div class="card-premium p-4 p-md-5">
+        <div class="mb-4">
+            <h2 class="fw-bold text-dark">Créer une Tontine</h2>
+            <p class="text-muted">Définissez les règles de votre tontine d'épargne collective.</p>
+        </div>
+
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Nom" class="form-label fw-semibold">Nom de la Tontine</label>
+                <input asp-for="Nom" class="form-control form-control-premium" placeholder="Ex: Tontine Solidarité Bamako" required />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label fw-semibold">Description / Objectif</label>
+                <textarea asp-for="Description" class="form-control form-control-premium" rows="3" placeholder="Décrivez l'objectif de cette tontine..." required></textarea>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label asp-for="MontantPart" class="form-label fw-semibold">Montant de la part (FCFA)</label>
+                    <div class="input-group">
+                        <input asp-for="MontantPart" type="number" class="form-control form-control-premium" placeholder="Ex: 10000" required />
+                        <span class="input-group-text bg-light text-dark">FCFA</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Frequence" class="form-label fw-semibold">Fréquence des cotisations</label>
+                    <select asp-for="Frequence" class="form-select form-control-premium">
+                        <option value="Mensuelle">Mensuelle (Chaque mois)</option>
+                        <option value="Hebdomadaire">Hebdomadaire (Chaque semaine)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label asp-for="DateDebut" class="form-label fw-semibold">Date de début des cotisations</label>
+                    <input asp-for="DateDebut" class="form-control form-control-premium" type="date" required />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="DateFin" class="form-label fw-semibold">Date de fin prévue</label>
+                    <input asp-for="DateFin" class="form-control form-control-premium" type="date" required />
+                </div>
+            </div>
+
+            <div class="d-flex gap-3 mt-4">
+                <a asp-action="Index" class="btn btn-secondary-premium flex-grow-1 text-center py-2.5">Annuler</a>
+                <button type="submit" class="btn btn-premium flex-grow-1 py-2.5">Créer et Rejoindre</button>
+            </div>
+        </form>
+    </div>
+</div>
