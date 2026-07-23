@@ -7,10 +7,10 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Ajout des services au conteneur d'injection de dépendances.
 builder.Services.AddControllersWithViews();
 
-// Add Cookie Authentication
+// Configuration de l'authentification par Cookie
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -20,7 +20,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromDays(7);
     });
 
-// Add session support
+// Ajout de la gestion des sessions
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -30,7 +30,7 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-// Ensure images directory and copy accueil.png if present
+// S'assurer que le dossier d'images existe et copier accueil.png si présent
 try
 {
     var webRoot = app.Environment.WebRootPath ?? Path.Combine(app.Environment.ContentRootPath, "wwwroot");
@@ -48,10 +48,10 @@ try
 }
 catch (Exception ex)
 {
-    Console.WriteLine($"Error copying images: {ex.Message}");
+    Console.WriteLine($"Erreur lors de la copie des images : {ex.Message}");
 }
 
-// Configure the HTTP request pipeline.
+// Configuration du pipeline de requêtes HTTP.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

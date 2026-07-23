@@ -1,9 +1,11 @@
 using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FasoTontine.Models;
 
 namespace FasoTontine.Controllers
 {
+    [Authorize]
     public class CotisationController : Controller
     {
         [HttpGet]
@@ -25,7 +27,7 @@ namespace FasoTontine.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Declarer(Cotisation model)
         {
-            // TODO: Implement transaction submission and database save
+            // TODO : Implémenter l'enregistrement de la déclaration de transaction ici
             return RedirectToAction("Details", "Tontine", new { id = model.TontineId });
         }
 
@@ -33,7 +35,7 @@ namespace FasoTontine.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Valider(int id, string decision)
         {
-            // TODO: Implement transaction validation logic
+            // TODO : Implémenter la logique de validation des cotisations ici
             return RedirectToAction("Index", "Home");
         }
     }

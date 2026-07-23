@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FasoTontine.Models;
-
-using Microsoft.AspNetCore.Authorization;
 
 namespace FasoTontine.Controllers
 {
@@ -12,14 +11,14 @@ namespace FasoTontine.Controllers
     {
         public IActionResult Index()
         {
-            // Return empty list of tontines for design view
+            // Retourner une liste vide de tontines pour l'affichage de la vue
             var tontines = new List<Tontine>();
             return View(tontines);
         }
 
         public IActionResult Details(int id)
         {
-            // Stub details data to prevent NullReferenceExceptions in details view rendering
+            // Données factices pour éviter les erreurs de référence nulle lors de l'affichage des détails
             var tontine = new Tontine
             {
                 Id = id,
@@ -48,7 +47,7 @@ namespace FasoTontine.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Tontine tontine)
         {
-            // TODO: Implement create database logic here
+            // TODO : Implémenter la création en base de données ici
             return RedirectToAction(nameof(Index));
         }
 
@@ -56,7 +55,7 @@ namespace FasoTontine.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Join(int id)
         {
-            // TODO: Implement join tontine logic here
+            // TODO : Implémenter la logique d'adhésion ici
             return RedirectToAction(nameof(Details), new { id });
         }
 
@@ -64,7 +63,7 @@ namespace FasoTontine.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult GenerateDrawOrder(int id, string method)
         {
-            // TODO: Implement draw order logic here
+            // TODO : Implémenter la logique de tirage au sort ici
             return RedirectToAction(nameof(Details), new { id });
         }
     }

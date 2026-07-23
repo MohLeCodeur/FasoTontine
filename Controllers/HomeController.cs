@@ -12,7 +12,7 @@ namespace FasoTontine.Controllers
     {
         public IActionResult Index()
         {
-            // Empty placeholders so the dashboard view renders the empty-state designs correctly
+            // Valeurs par défaut afin que la vue du tableau de bord affiche correctement l'état initial
             ViewBag.MyParticipations = new List<MembreTontine>();
             ViewBag.PendingValidationsCount = 0;
             ViewBag.TotalSaved = 0m;
@@ -24,7 +24,7 @@ namespace FasoTontine.Controllers
 
         public IActionResult Notifications()
         {
-            // Empty placeholder for notifications page
+            // Liste vide par défaut pour la page des notifications
             var notifications = new List<Notification>();
             return View(notifications);
         }
