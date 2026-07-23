@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Nos Tontines";
     Layout = "_Layout";
-    int currentUserId = ViewBag.CurrentUserId;
+    int currentUserId = (ViewBag.CurrentUserId as int?) ?? 0;
 }
 
 <div class="container">

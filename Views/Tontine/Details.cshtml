@@ -114,6 +114,23 @@
                                     <td class="font-monospace text-muted small">
                                         @member.Utilisateur?.Telephone
                                     </td>
+                                    @if (isAdmin && member.Statut == "EnAttente")
+                                    {
+                                        <td>
+                                            <div class="d-flex gap-1">
+                                                <form asp-action="ApproveMember" asp-route-id="@Model.Id" method="post">
+                                                    <input type="hidden" name="utilisateurId" value="@member.UtilisateurId" />
+                                                    <input type="hidden" name="decision" value="accepter" />
+                                                    <button type="submit" class="btn btn-sm btn-success">Accepter</button>
+                                                </form>
+                                                <form asp-action="ApproveMember" asp-route-id="@Model.Id" method="post">
+                                                    <input type="hidden" name="utilisateurId" value="@member.UtilisateurId" />
+                                                    <input type="hidden" name="decision" value="rejeter" />
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger">Rejeter</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    }
                                 </tr>
                             }
                         </tbody>
