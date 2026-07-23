@@ -7,6 +7,7 @@ using FasoTontine.Models;
 
 namespace FasoTontine.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()

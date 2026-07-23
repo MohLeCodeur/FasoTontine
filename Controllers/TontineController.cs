@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using FasoTontine.Models;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace FasoTontine.Controllers
 {
+    [Authorize]
     public class TontineController : Controller
     {
         public IActionResult Index()

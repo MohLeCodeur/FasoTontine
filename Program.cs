@@ -1,4 +1,9 @@
+using System;
+using System.IO;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +30,27 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
+// Ensure images directory and copy accueil.png if present
+try
+{
+    var webRoot = app.Environment.WebRootPath ?? Path.Combine(app.Environment.ContentRootPath, "wwwroot");
+    var imagesDir = Path.Combine(webRoot, "images");
+    if (!Directory.Exists(imagesDir))
+    {
+        Directory.CreateDirectory(imagesDir);
+    }
+    var sourceImagePath = Path.Combine(app.Environment.ContentRootPath, "accueil.png");
+    var destImagePath = Path.Combine(imagesDir, "accueil.png");
+    if (File.Exists(sourceImagePath))
+    {
+        File.Copy(sourceImagePath, destImagePath, true);
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error copying images: {ex.Message}");
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -36,33 +62,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-// app.Use(async (context, next) =>
-// {
-//     if (context.User.Identity?.IsAuthenticated != true)
-//     {
-//         var claims = new List<System.Security.Claims.Claim>
-//         {
-//             new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, "1"),
-//             new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, "Adama Diarra"),
-//             new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.MobilePhone, "76000000"),
-//             new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, "Admin")
-//         };
-//         var identity = new System.Security.Claims.ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-//         context.User = new System.Security.Claims.ClaimsPrincipal(identity);
-//     }
-//     await next();
-// });
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
 
 app.Run();

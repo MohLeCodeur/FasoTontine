@@ -3,43 +3,101 @@
     Layout = "_Layout";
 }
 
-<div class="row justify-content-center align-items-center" style="min-height: 60vh;">
-    <div class="col-md-5">
-        <div class="card-premium p-4 p-md-5">
-            <div class="text-center mb-4">
-                <i class="bi bi-wallet2 text-primary fs-1"></i>
-                <h2 class="fw-bold mt-2 text-dark">Connexion</h2>
-                <p class="text-muted">Gérez vos tontines en toute transparence</p>
+<div class="row g-0 align-items-stretch rounded-4 overflow-hidden shadow-lg border bg-white my-2">
+    <!-- LEFT SIDE: HERO ILLUSTRATION & DESCRIPTION -->
+    <div class="col-lg-6 p-4 p-md-5 text-white d-flex flex-column justify-content-between position-relative" style="background: linear-gradient(135deg, #2e1065 0%, #4c1d95 40%, #5b21b6 100%);">
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <i class="bi bi-wallet2 fs-2 text-warning"></i>
+                <span class="fs-4 fw-bold text-white tracking-wide">FasoTontine</span>
             </div>
+            <h2 class="fw-bold text-white mb-3">L'Épargne Collective Digitale & Transparente</h2>
+            <p class="text-light opacity-90 mb-4 fs-6">
+                Simplifiez la gestion de vos tontines familiales, d'amis ou d'entreprises. Suivez vos tirages et vos paiements en toute sérénité.
+            </p>
+        </div>
 
-            <form asp-action="Login" method="post">
-                <div class="asp-validation-summary-errors text-danger small mb-3" asp-validation-summary="All"></div>
+        <!-- HERO ILLUSTRATION IMAGE -->
+        <div class="my-3 text-center">
+            <img src="~/images/accueil.png" alt="Illustration FasoTontine" class="img-fluid rounded-4 shadow border border-light border-opacity-25" style="max-height: 320px; object-fit: cover; width: 100%;" />
+        </div>
 
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Numéro de Téléphone</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-telephone text-muted"></i></span>
-                        <input type="tel" name="telephone" class="form-control form-control-premium border-start-0" placeholder="Ex: 76000000" required />
-                    </div>
+        <!-- KEY ADVANTAGES -->
+        <div class="pt-3 border-top border-light border-opacity-25">
+            <div class="row g-2 text-start small text-light opacity-90">
+                <div class="col-6 d-flex align-items-center gap-2">
+                    <i class="bi bi-shield-check text-warning fs-5"></i>
+                    <span>Transactions Sécurisées</span>
                 </div>
-
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Mot de passe</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-                        <input type="password" name="password" class="form-control form-control-premium border-start-0" placeholder="••••••••" required />
-                    </div>
+                <div class="col-6 d-flex align-items-center gap-2">
+                    <i class="bi bi-phone-vibrate text-warning fs-5"></i>
+                    <span>Orange & Moov Money</span>
                 </div>
-
-                <button type="submit" class="btn btn-premium w-100 py-2.5 mb-3">
-                    <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter
-                </button>
-
-                <div class="text-center">
-                    <span class="text-muted">Pas encore membre ? </span>
-                    <a asp-action="Register" class="text-primary fw-semibold text-decoration-none">Créer un compte</a>
+                <div class="col-6 d-flex align-items-center gap-2">
+                    <i class="bi bi-diagram-3 text-warning fs-5"></i>
+                    <span>Tirages Aléatoires</span>
                 </div>
-            </form>
+                <div class="col-6 d-flex align-items-center gap-2">
+                    <i class="bi bi-bell-fill text-warning fs-5"></i>
+                    <span>Rappels Automatiques</span>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- RIGHT SIDE: LOGIN FORM -->
+    <div class="col-lg-6 p-4 p-md-5 d-flex flex-column justify-content-center bg-white">
+        <div class="mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center p-3 rounded-circle bg-primary-subtle text-primary mb-3">
+                <i class="bi bi-person-lock fs-2"></i>
+            </div>
+            <h2 class="fw-bold text-dark mb-1">Espace Connexion</h2>
+            <p class="text-muted">Accédez à vos tontines et gérez vos cotisations</p>
+        </div>
+
+        <form asp-action="Login" method="post">
+            <div class="asp-validation-summary-errors text-danger small mb-3" asp-validation-summary="All"></div>
+
+            <div class="mb-3">
+                <label for="telephone" class="form-label fw-semibold text-dark">Numéro de Téléphone (Mali)</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-telephone"></i></span>
+                    <input type="tel" name="telephone" class="form-control form-control-premium border-start-0" placeholder="Ex: 76000000" required />
+                </div>
+                <span class="form-text text-muted">Numéro utilisé pour vos transferts Mobile Money.</span>
+            </div>
+
+            <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <label for="password" class="form-label fw-semibold text-dark mb-0">Mot de passe</label>
+                </div>
+                <div class="input-group mt-1">
+                    <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-lock"></i></span>
+                    <input type="password" name="password" class="form-control form-control-premium border-start-0" placeholder="••••••••" required />
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-premium w-100 py-3 mb-4 fs-6 shadow-sm">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter à mon compte
+            </button>
+
+            <!-- DEMO CREDS QUICK ACCORDION -->
+            <div class="alert alert-light border rounded-3 p-3 mb-4 small">
+                <div class="fw-bold text-primary mb-1"><i class="bi bi-info-circle me-1"></i> Comptes de Démonstration :</div>
+                <div class="text-muted">
+                    • Admin : <strong>76000000</strong> / MDP : <strong>123456</strong><br />
+                    • Membre : <strong>76000001</strong> / MDP : <strong>123456</strong>
+                </div>
+            </div>
+
+            <div class="text-center pt-2 border-top">
+                <span class="text-muted">Vous n'avez pas encore de compte ? </span>
+                <a asp-action="Register" class="text-primary fw-bold text-decoration-none ms-1">Créer un compte</a>
+            </div>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
